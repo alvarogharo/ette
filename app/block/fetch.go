@@ -24,7 +24,7 @@ func FetchBlockByHash(client *ethclient.Client, hash common.Hash, number string,
 	block, err := client.BlockByHash(context.Background(), hash)
 	if err != nil {
 
-		log.Printf("❗️ Failed to fetch block %s : %s\n", number, err.Error())
+		log.Printf("❗️ Failed to fetch block by hash %s : %s\n", number, err.Error())
 		return false
 
 	}
@@ -45,7 +45,7 @@ func FetchBlockByNumber(client *ethclient.Client, number uint64, _db *gorm.DB, r
 	block, err := client.BlockByNumber(context.Background(), _num)
 	if err != nil {
 
-		log.Printf("❗️ Failed to fetch block %d : %s\n", number, err)
+		log.Printf("❗️ Failed to fetch block by number %d : %s\n", number, err)
 		return false
 
 	}
@@ -59,19 +59,9 @@ func FetchBlockByNumber(client *ethclient.Client, number uint64, _db *gorm.DB, r
 // which will be attempted to be stored in database
 func FetchTransactionByHash(client *ethclient.Client, block *types.Block, tx *types.Transaction, _db *gorm.DB, redis *d.RedisInfo, publishable bool, _status *d.StatusHolder, returnValChan chan *db.PackedTransaction) {
 
-	receipt, err := client.TransactionReceipt(context.Background(), tx.Hash())
+	receipt, err := client.TransactionReceipt(context.Background(), common.HexToHash(tx.HashString))
 	if err != nil {
 		log.Printf("❗️ Failed to fetch tx receipt [ block : %d ] : %s\n", block.NumberU64(), err.Error())
-
-		// Passing nil, to denote, failed to fetch all tx data
-		// from blockchain node
-		returnValChan <- nil
-		return
-	}
-
-	sender, err := client.TransactionSender(context.Background(), tx, block.Hash(), receipt.TransactionIndex)
-	if err != nil {
-		log.Printf("❗️ Failed to fetch tx sender [ block : %d ] : %s\n", block.NumberU64(), err.Error())
 
 		// Passing nil, to denote, failed to fetch all tx data
 		// from blockchain node
@@ -82,5 +72,5 @@ func FetchTransactionByHash(client *ethclient.Client, block *types.Block, tx *ty
 	// Passing all tx related data to listener go routine
 	// so that it can attempt to store whole block data
 	// into database
-	returnValChan <- BuildPackedTx(tx, sender, receipt)
+	returnValChan <- BuildPackedTx(tx, tx.FromAddress, receipt)
 }

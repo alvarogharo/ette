@@ -1,0 +1,12 @@
+{
+    "blockHash": "0x84afb078c816d095d2eb5b5d52b00b66629df0635d2d1e26def1c1e25e68896d",
+    "blockNumber": "0x2476791",
+    "from": "0xe9db170f534c360aa37b181de671868fc7a81ef6",
+    "gas": "0xe60f",
+    "gasPrice": "0x10517f5c02",
+    "maxFeePerGas": "0x157e25f3e8",
+    "maxPriorityFeePerGas": "0x79d372563",
+    "hash": "0x195db079d2437a4239b1c0c041d1c3bf0effabc4b19b867ae721a1bcdd6dd5a7",
+    "input": "0xa22cb465000000000000000000000000bb93395df76d2f8e4ace48e5defab43da18878aa0000000000000000000000000000000000000000000000000000000000000001",
+    "nonce": "0x0"
+}

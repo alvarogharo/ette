@@ -1,6 +1,9 @@
 package block
 
 import (
+	"fmt"
+	"math/big"
+
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/core/types"
 	c "github.com/itzmeanjan/ette/app/common"
@@ -13,17 +16,27 @@ func BuildPackedTx(tx *types.Transaction, sender common.Address, receipt *types.
 
 	packedTx := &db.PackedTransaction{}
 
+	gasPriceBigInt := new(big.Int)
+	gasPriceBigInt, okGasPrice := gasPriceBigInt.SetString(tx.GasPriceString, 10)
+	if !okGasPrice {
+		fmt.Println("SetString: error")
+	}
+
+	cost := new(big.Int)
+	cost.Mul(gasPriceBigInt, new(big.Int).SetUint64(receipt.GasUsed))
+	cost.Add(cost, tx.Value())
+
 	if tx.To() == nil {
 
 		packedTx.Tx = &db.Transactions{
-			Hash:      tx.Hash().Hex(),
+			Hash:      tx.HashString,
 			From:      sender.Hex(),
 			Contract:  receipt.ContractAddress.Hex(),
 			Value:     tx.Value().String(),
 			Data:      tx.Data(),
-			Gas:       tx.Gas(),
-			GasPrice:  tx.GasPrice().String(),
-			Cost:      tx.Cost().String(),
+			Gas:       receipt.GasUsed,
+			GasPrice:  tx.GasPriceString,
+			Cost:      cost.String(),
 			Nonce:     tx.Nonce(),
 			State:     receipt.Status,
 			BlockHash: receipt.BlockHash.Hex(),
@@ -32,14 +45,14 @@ func BuildPackedTx(tx *types.Transaction, sender common.Address, receipt *types.
 	} else {
 
 		packedTx.Tx = &db.Transactions{
-			Hash:      tx.Hash().Hex(),
+			Hash:      tx.HashString,
 			From:      sender.Hex(),
 			To:        tx.To().Hex(),
 			Value:     tx.Value().String(),
 			Data:      tx.Data(),
-			Gas:       tx.Gas(),
-			GasPrice:  tx.GasPrice().String(),
-			Cost:      tx.Cost().String(),
+			Gas:       receipt.GasUsed,
+			GasPrice:  tx.GasPriceString,
+			Cost:      cost.String(),
 			Nonce:     tx.Nonce(),
 			State:     receipt.Status,
 			BlockHash: receipt.BlockHash.Hex(),
