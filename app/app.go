@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/gookit/color"
+	bal "github.com/itzmeanjan/ette/app/balance"
 	blk "github.com/itzmeanjan/ette/app/block"
 	cfg "github.com/itzmeanjan/ette/app/config"
 	"github.com/itzmeanjan/ette/app/db"
@@ -120,6 +121,8 @@ func Run(configFile, subscriptionPlansFile string) {
 	//
 	// @note Need to be diagnosed, why it doesn't work
 	// go srv.DeliveryHistoryCleanUpService(_db)
+
+	go bal.CompressedBalanceService(_db)
 
 	// Starting http server on main thread
 	rest.RunHTTPServer(_db, _status, _redisClient)

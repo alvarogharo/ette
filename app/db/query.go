@@ -28,6 +28,22 @@ func GetAllBlockNumbersInRange(db *gorm.DB, from uint64, to uint64) []uint64 {
 
 }
 
+func GetAllBlockNumbersInRangeExclusive(db *gorm.DB, from uint64, to uint64) []uint64 {
+
+	var blocks []uint64
+	rangeFrom := math.Min(float64(from), float64(to))
+	rangeTo := math.Max(float64(from), float64(to))
+	if err := db.Model(&Blocks{}).Where("number >= ? and number < ?", rangeFrom, rangeTo).Order("number asc").Select("number").Find(&blocks).Error; err != nil {
+
+		log.Printf("[!] Failed to fetch block numbers by range : %s\n", err.Error())
+		return nil
+
+	}
+
+	return blocks
+
+}
+
 // GetCurrentOldestBlockNumber - Fetches what's lowest block number present in database,
 // which denotes if it's not 0, from here we can start syncing again, until we reach 0
 func GetCurrentOldestBlockNumber(db *gorm.DB) uint64 {

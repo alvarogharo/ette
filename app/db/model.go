@@ -4,7 +4,6 @@ import (
 	"bytes"
 	"encoding/json"
 	"log"
-	"math/big"
 	"time"
 
 	"github.com/jackc/pgtype"
@@ -115,10 +114,10 @@ type PackedBlock struct {
 }
 
 type CompressedBalance struct {
-	Token   string   `gorm:"column:token;type:char(42);not null;primaryKey"`
-	User    string   `gorm:"column:user;type:char(42);not null;primaryKey"`
-	ToBlock uint64   `gorm:"column:blocknumber;type:bigint;not null;primaryKey"`
-	Amount  *big.Int `gorm:"column:amount;type:numeric(78,0);default:0"`
+	Token   string         `gorm:"column:token;type:char(42);not null;primaryKey"`
+	User    string         `gorm:"column:user;type:char(42);not null;primaryKey"`
+	ToBlock uint64         `gorm:"column:toblock;type:bigint;not null;primaryKey"`
+	Amount  pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);not null"`
 }
 
 // TableName - Overriding default table name
@@ -130,7 +129,7 @@ type BlockBalance struct {
 	Token       string         `gorm:"column:token;type:char(42);not null;primaryKey"`
 	User        string         `gorm:"column:user;type:char(42);not null;primaryKey"`
 	BlockNumber uint64         `gorm:"column:blocknumber;type:bigint;not null;primaryKey"`
-	Amount      pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);default:0"`
+	Amount      pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);not null"`
 }
 
 // TableName - Overriding default table name
