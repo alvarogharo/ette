@@ -118,7 +118,7 @@ func SubscribeToNewBlocks(connection *d.BlockChainNodeConnection, _db *gorm.DB, 
 					} else {
 						to = status.MaxBlockNumberAtStartUp() - cfg.GetBlockConfirmations()
 					}
-					to = 38262240 //38233707
+
 					go SyncBlocksByRange(connection.RPC, _db, redis, queue, from, to, status)
 
 				}

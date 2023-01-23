@@ -26,10 +26,10 @@ func RemoveBlockBalance(dbWTx *gorm.DB, blockHash string) error {
 
 }
 
-func GetBlocksBlockBlancesByRange(db *gorm.DB, from uint64, to uint64) []*BlockBalance {
-	var blockBalances []*BlockBalance
+func GetBlocksBlockBlancesByRange(db *gorm.DB, from uint64, to uint64) []*BlockBalanceOut {
+	var blockBalances []*BlockBalanceOut
 
-	if res := db.Model(&BlockBalance{}).Where("blocknumber >= ? and blocknumber < ?", from, to).Find(&blockBalances); res.Error != nil {
+	if res := db.Model(&BlockBalanceOut{}).Where("blocknumber >= ? and blocknumber < ?", from, to).Find(&blockBalances); res.Error != nil {
 		return nil
 	}
 

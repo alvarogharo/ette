@@ -27,7 +27,7 @@ func CompressedBalanceService(_db *gorm.DB) {
 func checkForCompressionAndPersist(_db *gorm.DB, compressionSize int) {
 	lastCompressedBalanceBlock := db.GetLastCompressedBalaceBlock(_db)
 
-	lastToBlock := 38262240
+	lastToBlock := 0
 	if lastCompressedBalanceBlock != nil {
 		lastToBlock = int(lastCompressedBalanceBlock.ToBlock)
 	}
@@ -37,6 +37,7 @@ func checkForCompressionAndPersist(_db *gorm.DB, compressionSize int) {
 
 	blockNumbers := db.GetAllBlockNumbersInRangeExclusive(_db, fromBlock, toBlock)
 	if len(blockNumbers) != compressionSize {
+		log.Printf("🔆 Not enougth blocks for balance compression. Target size %d current uncompressed size %d", compressionSize, len(blockNumbers))
 		return
 	}
 
@@ -52,9 +53,10 @@ func checkForCompressionAndPersist(_db *gorm.DB, compressionSize int) {
 		log.Printf("❗️ Failed to sotre compressed balance range %d - %d : %s\n", fromBlock, toBlock, err.Error())
 		return
 	}
+	log.Printf("📎 Published balances compression from %d - %d\n", fromBlock, toBlock-1)
 }
 
-func processBlockBalances(blockBalances []*db.BlockBalance, toBlock uint64) []*db.CompressedBalance {
+func processBlockBalances(blockBalances []*db.BlockBalanceOut, toBlock uint64) []*db.CompressedBalance {
 	compressedBalancesMap := make(map[string]map[string]big.Int)
 	compressedBlanceSize := 0
 	compressed := 0
@@ -75,7 +77,7 @@ func processBlockBalances(blockBalances []*db.BlockBalance, toBlock uint64) []*d
 			compressed++
 		}
 		amount := new(big.Int)
-		amount.SetString(blockBalance.Amount.Int.String(), 10)
+		amount.SetString(blockBalance.Amount, 10)
 		currentBalance := compressedBalancesMap[blockBalance.User][blockBalance.Token]
 		currentBalance.Add(&currentBalance, amount)
 		compressedBalancesMap[blockBalance.User][blockBalance.Token] = currentBalance

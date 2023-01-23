@@ -132,6 +132,17 @@ type BlockBalance struct {
 	Amount      pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);not null"`
 }
 
+type BlockBalanceOut struct {
+	Token       string `gorm:"column:token;type:char(42);not null;primaryKey"`
+	User        string `gorm:"column:user;type:char(42);not null;primaryKey"`
+	BlockNumber uint64 `gorm:"column:blocknumber;type:bigint;not null;primaryKey"`
+	Amount      string `gorm:"column:amount;type:numeric(78,0);not null"`
+}
+
+func (BlockBalanceOut) TableName() string {
+	return "block_balance"
+}
+
 // TableName - Overriding default table name
 func (BlockBalance) TableName() string {
 	return "block_balance"
