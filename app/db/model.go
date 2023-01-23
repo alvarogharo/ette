@@ -6,6 +6,7 @@ import (
 	"log"
 	"time"
 
+	"github.com/jackc/pgtype"
 	"github.com/lib/pq"
 )
 
@@ -109,6 +110,42 @@ type PackedTransaction struct {
 type PackedBlock struct {
 	Block        *Blocks
 	Transactions []*PackedTransaction
+	Balances     []*BlockBalance
+}
+
+type CompressedBalance struct {
+	Token   string         `gorm:"column:token;type:char(42);not null;primaryKey"`
+	User    string         `gorm:"column:user;type:char(42);not null;primaryKey"`
+	ToBlock uint64         `gorm:"column:toblock;type:bigint;not null;primaryKey"`
+	Amount  pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);not null"`
+}
+
+// TableName - Overriding default table name
+func (CompressedBalance) TableName() string {
+	return "compressed_balance"
+}
+
+type BlockBalance struct {
+	Token       string         `gorm:"column:token;type:char(42);not null;primaryKey"`
+	User        string         `gorm:"column:user;type:char(42);not null;primaryKey"`
+	BlockNumber uint64         `gorm:"column:blocknumber;type:bigint;not null;primaryKey"`
+	Amount      pgtype.Numeric `gorm:"column:amount;type:numeric(78,0);not null"`
+}
+
+type BlockBalanceOut struct {
+	Token       string `gorm:"column:token;type:char(42);not null;primaryKey"`
+	User        string `gorm:"column:user;type:char(42);not null;primaryKey"`
+	BlockNumber uint64 `gorm:"column:blocknumber;type:bigint;not null;primaryKey"`
+	Amount      string `gorm:"column:amount;type:numeric(78,0);not null"`
+}
+
+func (BlockBalanceOut) TableName() string {
+	return "block_balance"
+}
+
+// TableName - Overriding default table name
+func (BlockBalance) TableName() string {
+	return "block_balance"
 }
 
 // Users - User address & created api key related info, holder table

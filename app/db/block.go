@@ -91,6 +91,14 @@ func StoreBlock(dbWOTx *gorm.DB, block *PackedBlock, status *d.StatusHolder, que
 
 		}
 
+		for _, b := range block.Balances {
+
+			if err := UpsertBlockBalance(dbWTx, b); err != nil {
+				return err
+			}
+
+		}
+
 		// During 👆 flow, if we've really inserted a new block into database,
 		// count will get updated
 		if blockInserted && status != nil && queue != nil {

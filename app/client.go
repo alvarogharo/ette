@@ -17,7 +17,7 @@ func getClient(isRPC bool) *ethclient.Client {
 	var err error
 
 	if isRPC {
-		client, err = ethclient.Dial(cfg.Get("RPCUrl"))
+		client, err = ethclient.Dial(cfg.Get("WebsocketUrl"))
 	} else {
 		client, err = ethclient.Dial(cfg.Get("WebsocketUrl"))
 	}

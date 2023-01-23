@@ -93,4 +93,20 @@ create table subscription_details (
     foreign key (subscriptionplan) references subscription_plans(id)
 );
 
+create table block_balance (
+    token char(42) not null,
+    user char(42) not null,
+    blocknumber bigint not null,
+    amount numeric(78, 0),
+    primary key (token, user, blocknumber),
+);
+
+create table compressed_balance (
+    token char(42) not null,
+    user char(42) not null,
+    toblock bigint not null,
+    amount numeric(78, 0),
+    primary key (token, user, toblock),
+);
+
 create index on subscription_details(subscriptionplan);
