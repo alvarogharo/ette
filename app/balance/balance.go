@@ -29,7 +29,7 @@ func checkForCompressionAndPersist(_db *gorm.DB, compressionSize int) {
 
 	lastToBlock := 0
 	if lastCompressedBalanceBlock != nil {
-		lastToBlock = int(lastCompressedBalanceBlock.ToBlock)
+		lastToBlock = int(lastCompressedBalanceBlock.ToBlock + 1)
 	}
 
 	fromBlock := uint64(lastToBlock)
