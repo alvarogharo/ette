@@ -6,8 +6,8 @@ import (
 	"log"
 	"runtime"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/core/types"
+	"github.com/GeoDB-Limited/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/core/types"
 	"github.com/gammazero/workerpool"
 	cfg "github.com/itzmeanjan/ette/app/config"
 	d "github.com/itzmeanjan/ette/app/data"
@@ -118,7 +118,7 @@ func SubscribeToNewBlocks(connection *d.BlockChainNodeConnection, _db *gorm.DB, 
 					} else {
 						to = status.MaxBlockNumberAtStartUp() - cfg.GetBlockConfirmations()
 					}
-
+					to = 38264240 //38233707
 					go SyncBlocksByRange(connection.RPC, _db, redis, queue, from, to, status)
 
 				}

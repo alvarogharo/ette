@@ -5,7 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/common"
 	"gorm.io/gorm"
 )
 
@@ -74,7 +74,7 @@ func AddNewSubscriptionPlan(_db *gorm.DB, name string, deliveryCount uint64) {
 }
 
 // PersistAllSubscriptionPlans - Given path to user created subscription plan
-// holder ``.plans.json` file, it'll read that content into memory & then parse JSON
+// holder “.plans.json` file, it'll read that content into memory & then parse JSON
 // content of its, which will be persisted into database, into `subscription_plans` table
 func PersistAllSubscriptionPlans(_db *gorm.DB, file string) {
 

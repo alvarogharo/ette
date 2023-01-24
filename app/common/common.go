@@ -4,7 +4,7 @@ import (
 	"errors"
 	"strconv"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/common"
 )
 
 // StringifyEventTopics - Given array of event topic signatures,
