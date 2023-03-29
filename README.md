@@ -1,6 +1,10 @@
-# ette
+## IMPORTANT!! 
+I've added balance indexing for erc20 tokens and ETH to this base repository. 
+For that I have also modified the go-ethtereum lib (this specific branch https://github.com/GeoDB-Limited/go-ethereum/tree/v1.10.17-indexer) to make ette more performant, reducing the number of request and addapting it to be able to work with Polygon network.
 
-EVM-based Blockchain Indexer, with historical data query & real-time notification support 😎
+# Ette
+
+EVM-based Blockchain Indexer, with historical data query & real-time notification support 😎 Added ERC-20 and ETH balance indexing in this fork
 
 **Deploy your `ette` instance today**
 
