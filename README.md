@@ -132,6 +132,7 @@ cd ette
     - For range based queries `BlockRange` can be set to limit how many blocks can be queried by client in a single go. Default value 100.
     - For time span based queries `TimeRange` can be set to put limit on max time span _( in terms of second )_, can be used by clients. Default value 3600 i.e. 1 hour.
     - If you're attempting to take snapshot/ restore from binary snapshot file, you can set `SnapshotFile` in `.env` file, to set sink/ source file name, respectively. Default file name `echo $(echo $(pwd)/snapshot.bin)` in i.e. from where `ette` gets invoked. Consider setting `EtteMode` correctly, depending upon what you want to attain.
+    - To set the number of block balances you want to compress set `CompressionSize` in `.env` file. You can also set the interval in seconds with `CompresionCheckIntervalSecs` for the systeme to check if the compresion size is already reached and start compresing the balances.
 
 ```
 RPCUrl=https://<domain-name>
@@ -154,6 +155,8 @@ BlockConfirmations=200
 BlockRange=1000
 TimeRange=21600
 SnapshotFile=snapshot.bin
+CompressionSize=1000
+CompresionCheckIntervalSecs=60
 ```
 
 - Create another file in same directory, named `.plans.json`, whose content will look like 👇.

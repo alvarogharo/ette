@@ -4,8 +4,8 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/crypto"
+	"github.com/GeoDB-Limited/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/crypto"
 	"gorm.io/gorm"
 )
 
@@ -27,9 +27,10 @@ func GetAppsByUserAddress(_db *gorm.DB, address common.Address) []*Users {
 
 // ComputeAPIKeyForAddress - Computing new API key for user address,
 // by taking `nonce` of that account & current unix time stamp ( with nanosecond level precision )
-//  under consideration
 //
-// Here `nonce` is nothing but count of applications created in `ette` by account
+//	under consideration
+//
+// # Here `nonce` is nothing but count of applications created in `ette` by account
 //
 // `Time` field is being added when computing next API key for making it more
 // unpredictable

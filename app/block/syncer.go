@@ -6,7 +6,7 @@ import (
 	"sort"
 	"time"
 
-	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/GeoDB-Limited/go-ethereum/ethclient"
 	"github.com/gammazero/workerpool"
 	"github.com/gookit/color"
 	cfg "github.com/itzmeanjan/ette/app/config"

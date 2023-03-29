@@ -1,7 +1,7 @@
 package snapshot
 
 import (
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/common"
 	"github.com/itzmeanjan/ette/app/data"
 	_db "github.com/itzmeanjan/ette/app/db"
 	pb "github.com/itzmeanjan/ette/app/pb"

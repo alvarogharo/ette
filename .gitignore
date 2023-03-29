@@ -18,3 +18,9 @@ ette
 node_modules
 .plans.json
 snapshot.bin
+
+.vscode/
+
+.DS_Store
+
+.env gcp

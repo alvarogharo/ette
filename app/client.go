@@ -6,7 +6,7 @@ import (
 
 	"github.com/go-redis/redis/v8"
 
-	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/GeoDB-Limited/go-ethereum/ethclient"
 	cfg "github.com/itzmeanjan/ette/app/config"
 )
 

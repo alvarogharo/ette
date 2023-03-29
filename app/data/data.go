@@ -4,7 +4,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/ethereum/go-ethereum/ethclient"
+	"github.com/GeoDB-Limited/go-ethereum/ethclient"
 	"github.com/go-redis/redis/v8"
 	"gorm.io/gorm"
 )

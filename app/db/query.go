@@ -6,7 +6,7 @@ import (
 	"math"
 	"strings"
 
-	"github.com/ethereum/go-ethereum/common"
+	"github.com/GeoDB-Limited/go-ethereum/common"
 	"github.com/itzmeanjan/ette/app/data"
 	"gorm.io/gorm"
 )
@@ -75,7 +75,7 @@ func GetCurrentBlockNumber(db *gorm.DB) uint64 {
 // this function needs to be least frequently, otherwise due to full table
 // scan it'll cost us a lot
 //
-// Currently only using during application start up
+// # Currently only using during application start up
 //
 // All other block count calculation requirements can be fulfilled by
 // using in-memory program state holder
